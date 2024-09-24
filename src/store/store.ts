@@ -1,19 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import carrinhoReducer from './reducers/carrinho'
-
-import favoritoReducer from './reducers/favorito'
-
 import api from '../services/api'
 
-export const store = configureStore({
+import produtos from './reducers/slice'
+
+const store = configureStore({
   reducer: {
-    carrinho: carrinhoReducer,
-    favorito: favoritoReducer,
+    carrinho: produtos,
     [api.reducerPath]: api.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware)
 })
+
+export default store
 
 export type RootReducer = ReturnType<typeof store.getState>

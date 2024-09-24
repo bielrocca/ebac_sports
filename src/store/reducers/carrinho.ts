@@ -1,32 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Produto as ProductType } from '../../App'
+import { RootReducer } from '../store'
 
-import { Produto } from '../../App'
+export const selectProductinCart = (root: RootReducer) =>
+  root.carrinho.itemsToBuy.length
 
-type CarrinhoState = {
-  itens: Produto[]
-}
+export const selectTotalValue = (root: RootReducer) =>
+  root.carrinho.itemsToBuy.reduce((acc, item) => {
+    acc += item.preco
+    return acc
+  }, 0)
 
-const initialState: CarrinhoState = {
-  itens: []
-}
+export const selectFavouritesQtt = (root: RootReducer) =>
+  root.carrinho.favorites.length
 
-const carrinhoSlice = createSlice({
-  name: 'carrinho',
-  initialState,
-  reducers: {
-    adicionar: (state, action: PayloadAction<Produto>) => {
-      const itemJaExiste = state.itens.find(
-        (item) => item.id === action.payload.id
-      )
+export const selectIsFavorite = (favorites: number[], id: number) =>
+  favorites.some((pid) => pid === id)
 
-      if (itemJaExiste) {
-        return
-      }
-
-      state.itens.push(action.payload)
-    }
-  }
-})
-
-export const { adicionar } = carrinhoSlice.actions
-export default carrinhoSlice.reducer
+export const selectIsInCart = (products: ProductType[], id: number) =>
+  products.some((p) => p.id === id)

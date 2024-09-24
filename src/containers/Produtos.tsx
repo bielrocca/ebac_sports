@@ -1,18 +1,24 @@
 import Produto from '../components/Produto'
-
 import { useGetStoreQuery } from '../services/api'
 
 import * as S from './styles'
 
 const Produtos = () => {
-  const { data: item, isLoading } = useGetStoreQuery()
+  const { data: produtos, isLoading } = useGetStoreQuery()
 
-  if (isLoading) return <h2>Carregando...</h2>
+  {
+    if (isLoading)
+      return (
+        <S.Loading>
+          <h1> &lsaquo; Carregando &rsaquo;</h1>
+        </S.Loading>
+      )
+  }
 
   return (
     <>
       <S.Produtos>
-        {item?.map((produto) => (
+        {produtos?.map((produto) => (
           <Produto key={produto.id} produto={produto} />
         ))}
       </S.Produtos>
